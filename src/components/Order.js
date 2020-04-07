@@ -4,6 +4,8 @@ import { formatPrice } from '../helpers';
 class Order extends React.Component {
   renderOrder = (key) => {
     const fish = this.props.fishes[key];
+    // make sure fish is loaded before we continue
+    if (!fish) return null;
     const count = this.props.order[key];
     const isAvailable = fish && fish.status === 'available';
     if (!isAvailable) {
@@ -14,6 +16,7 @@ class Order extends React.Component {
     return <li key={key}>
         {count} lbs {fish.name}
         {formatPrice(count * fish.price)}
+        <button onClick={() => this.props.removeFromOrder(key)}>&times;</button>
       </li>
   }
   render() {
